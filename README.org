@@ -1,0 +1,2 @@
+* gcloud.el
+  Interact with gcloud resources from within emacs.
