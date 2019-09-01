@@ -23,6 +23,8 @@
 
 (require 'gcloud-process)
 
+(require 'json)
+
 (defconst gcloud-tramp-method "gcloud")
 
 ;;;###autoload
@@ -42,8 +44,7 @@
 
 (defun gcloud-read-instance ()
   "Prompt for an instance name."
-  ;; TODO: Use completing-read with an existing list of instances.
-  (read-string "Instance: "))
+  (completing-read "Instance: " (gcloud--get-instances "name")))
 
 (defun gcloud-format-tramp (ins &optional path)
   (format "/%s:%s:%s" gcloud-tramp-method ins (or path "/")))
@@ -80,5 +81,16 @@
          (default-directory tramp-path))
     (shell (generate-new-buffer-name (format "*shell %s*" default-directory)))))
 
+(defun gcloud--get-instances (&rest fields)
+  "Get a list of instances containing only FIELDS."
+  (let* ((json-object-type 'hash-table)
+         (json-array-type 'list)
+         (output (gcloud-run "compute" "instances" "list" "--format=json"))
+         (json (json-read-from-string output)))
+    (mapcar (lambda (object)
+              (reverse (let (ins-fields)
+                (dolist (field fields ins-fields)
+                  (setq ins-fields (push (gethash field object) ins-fields)))))) json)))
+
 (provide 'gcloud-instance)
-;;; gcloud-process.el ends here
+;;; gcloud-instance.el ends here

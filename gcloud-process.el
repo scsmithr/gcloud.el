@@ -21,12 +21,15 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'subr-x))
+
 (defvar gcloud-command "gcloud"
   "Path to gcloud binary.")
 
 (defun gcloud-run (&rest args)
   "Execute a gcloud command with ARGS."
-  (let ((command (concat gcloud-command " " (strings-join args " "))))
+  (let ((command (concat gcloud-command " " (string-join args " "))))
     (message command)
     (shell-command-to-string command)))
 
