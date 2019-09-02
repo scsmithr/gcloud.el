@@ -71,8 +71,7 @@
   (let* ((tramp-path (gcloud-format-tramp ins))
          (default-directory tramp-path)
          (eshell-buffer-name (generate-new-buffer-name (format "*eshell %s*" default-directory))))
-    (message "buffer: %s" eshell-buffer-name)
-    (eshell)))
+    (eshell t)))
 
 (defun gcloud-instance-shell (ins)
   "Open shell in INS."
