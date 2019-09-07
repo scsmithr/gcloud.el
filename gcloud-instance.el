@@ -89,7 +89,8 @@
     (mapcar (lambda (object)
               (reverse (let (ins-fields)
                 (dolist (field fields ins-fields)
-                  (setq ins-fields (push (gethash field object) ins-fields)))))) json)))
+                  (setq ins-fields (push (gethash field object) ins-fields))))))
+            json)))
 
 (provide 'gcloud-instance)
 ;;; gcloud-instance.el ends here
