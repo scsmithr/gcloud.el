@@ -34,7 +34,8 @@
   (add-to-list 'tramp-methods
                `(,gcloud-tramp-method
                  (tramp-login-program ,gcloud-command)
-                 (tramp-login-args (("compute" "ssh") ("%h") ("--") ("/bin/bash")))
+                 (tramp-login-args (("compute" "ssh") ("%h")))
+                 (tramp-async-args (("-q")))
                  (tramp-remote-shell "/bin/bash")
                  (tramp-remote-shell-args ("-i" "-c")))))
 
